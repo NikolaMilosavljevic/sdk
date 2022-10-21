@@ -65,7 +65,7 @@
     </Dependency>
     <Dependency Name="dotnet-format" Version="7.0.350601">
       <Uri>https://github.com/nikolamilosavljevic/format</Uri>
-      <Sha>2564707523a8f9c79b11dd58a0d5545ea7e56f19</Sha>
+      <Sha>9ce425e217cd15e044788124594559d377a2e52e</Sha>
       <SourceBuildTarball RepoName="format" ManagedOnly="true" />
     </Dependency>
     <Dependency Name="Microsoft.Net.Compilers.Toolset" Version="4.4.0-3.22505.18">
