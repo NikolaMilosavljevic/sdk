@@ -232,16 +232,6 @@
                         GetAspNetSharedFxInstallArgs;"
       Inputs="@(CLISdkFiles);@(TemplatesFiles);@(ManifestFiles)"
       Outputs="$(SdkDebInstallerFile)">
-    <!-- Install Shared Framework Packages -->
-    <Exec Command="sudo dpkg -i $(DownloadedNetCoreAppHostPackInstallerFile)" />
-    <Exec Command="sudo dpkg -i $(DownloadedNetCoreAppTargetingPackInstallerFile)" />
-    <Exec Command="sudo dpkg -i $(DownloadedNetStandardTargetingPackInstallerFile)" />
-    <Exec Command="sudo dpkg -i $(DownloadedAspNetTargetingPackInstallerFile)" />
-    <Exec Command="sudo dpkg -i $(DownloadedRuntimeDepsInstallerFile)" />
-    <Exec Command="sudo dpkg -i $(DownloadedSharedHostInstallerFile)" />
-    <Exec Command="sudo dpkg -i $(DownloadedHostFxrInstallerFile)" />
-    <Exec Command="sudo dpkg -i $(DownloadedSharedFrameworkInstallerFile)" />
-    <Exec Command="sudo dpkg $(InstallAspNetCoreSharedFxArgs) -i $(DownloadedAspNetCoreSharedFxInstallerFile)" />
 
     <!-- Create layout: Binaries -->
     <Copy
@@ -316,28 +306,6 @@
       SkipUnchangedFiles="False"
       UseHardlinksIfPossible="False" />
 
-    <!-- Proactively remove all possible Shared Framework and Debian Packages -->
-    <ItemGroup>
-      <SetupDebPackageToRemove Include="$(SdkDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(AspNetCoreSharedFxDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(AspNetCoreSharedFxDebianPackageFileName)" />
-      <SetupDebPackageToRemove Include="$(SharedFxDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(SharedFxDebianPackageFileName)" />
-      <SetupDebPackageToRemove Include="$(HostFxrDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(HostFxrDebianPackageFileName)" />
-      <SetupDebPackageToRemove Include="$(SharedHostDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(AspNetTargetingPackDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(AspNetTargetingPackDebianPackageFileName)" />
-      <SetupDebPackageToRemove Include="$(NetStandardTargetingPackDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(NetStandardTargetingPackDebianPackageFileName)" />
-      <SetupDebPackageToRemove Include="$(NetCoreAppTargetingPackDebianPackageName)" />
-      <SetupDebPackageToRemove Include="$(NetCoreAppTargetingPackDebianPackageFileName)" />
-      <SetupDebPackageToRemove Include="$(NetCoreAppHostPackDebianPackageFileName)" />
-      <SetupDebPackageToRemove Include="$(RuntimeDepsPackageName)" />
-    </ItemGroup>
-    <!-- The following line is needed. So it won't warning dotnet folder is not empty after uninstall -->
-    <Exec Command="sudo rm -rf /usr/share/dotnet/sdk/NuGetFallbackFolder" />
-    <Exec Command="!(dpkg-query -W %(SetupDebPackageToRemove.Identity)) || sudo dpkg -r %(SetupDebPackageToRemove.Identity)" />
   </Target>
 
   <Target Name="TestSdkDeb"
