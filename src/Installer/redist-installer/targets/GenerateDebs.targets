@@ -1,5 +1,11 @@
 <Project>
 
+  <!--
+    For now import Arcade installer targets only for DEB build that knows how to consume them properly.
+    Eventually, this will be enabled for all installer types.
+  -->
+  <Import Project="$(PkgMicrosoft_DotNet_Build_Tasks_Installers)/build/installer.targets" Condition="'$(BuildSdkDeb)' == 'true'"/>
+
   <PropertyGroup>
     <DebPackageToolPath>$(PkgMicrosoft_DotNet_Build_Tasks_Installers)/build/deb-package-tool</DebPackageToolPath>
   </PropertyGroup>
@@ -195,7 +201,9 @@
           DependsOnTargets="SetupBundledComponents;
                             SetupDebProps;
                             TestDebuild;
-                            BuildSdkDeb;
+                            PrepareForSdkDeb;
+                            CreateDeb;
+                            PostCreateDeb;
                             TestSdkDeb"
           Condition=" '$(IsDebianBaseDistro)' == 'True' "
           Outputs="@(GeneratedInstallers)" />
@@ -226,12 +234,10 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="BuildSdkDeb"
+  <Target Name="PrepareForSdkDeb"
       Condition=" '$(IsDebianBaseDistro)' == 'True' AND '$(BuildSdkDeb)'  == 'true' "
       DependsOnTargets="PrepareDotnetDebDirectories;
-                        GetAspNetSharedFxInstallArgs;"
-      Inputs="@(CLISdkFiles);@(TemplatesFiles);@(ManifestFiles)"
-      Outputs="$(SdkDebInstallerFile)">
+                        GetAspNetSharedFxInstallArgs;">
 
     <!-- Create layout: Binaries -->
     <Copy
@@ -281,13 +287,21 @@
       DestinationFiles="$(DebianConfigJsonFile)"
       ReplacementItems="@(DebianConfigTokenValues)" />
 
-    <!-- Build SDK Deb package -->
+    <!-- Build SDK Deb package
     <DotNetDebTool ToolPath="$(DebPackageToolPath)"
                     InputDirectory="$(LayoutDirectory)"
                     OutputDirectory="$(DotNetDebToolOutputDirectory)"
                     PackageName="$(SdkDebianPackageName)"
                     PackageVersion="$(Version)"
                     WorkingDirectory="$(DotnetDebToolDir)" />
+    -->
+
+  </Target>
+
+  <Target Name="PostCreateDeb"
+      Condition=" '$(IsDebianBaseDistro)' == 'True' AND '$(BuildSdkDeb)'  == 'true' "
+      DependsOnTargets="PrepareForSdkDeb;
+                        CreateDeb">
 
     <!-- Copy SDK package to output
         dbgsym packages is Debian Debug Symbol Packages https://wiki.ubuntu.com/Debug%20Symbol%20Packages,
