@@ -3,8 +3,8 @@
   <!--
     For now import Arcade installer targets only for DEB build that knows how to consume them properly.
     Eventually, this will be enabled for all installer types.
-  -->
   <Import Project="$(PkgMicrosoft_DotNet_Build_Tasks_Installers)/build/installer.targets" Condition="'$(BuildSdkDeb)' == 'true'"/>
+  -->
 
   <PropertyGroup>
     <DebPackageToolPath>$(PkgMicrosoft_DotNet_Build_Tasks_Installers)/build/deb-package-tool</DebPackageToolPath>
