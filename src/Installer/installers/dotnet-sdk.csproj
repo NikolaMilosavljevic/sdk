@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.Build.NoTargets">
   <PropertyGroup>
+    <TargetFramework>$(SdkTargetFramework)</TargetFramework>
     <SkipBuild Condition="'$(BuildSdkDeb)' != 'true'">true</SkipBuild>
     <GenerateInstallers>true</GenerateInstallers>
     <InstallerName>dotnet-hostfxr</InstallerName>
