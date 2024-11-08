@@ -1,9 +1,10 @@
 <Project Sdk="Microsoft.Build.NoTargets">
   <PropertyGroup>
+    <SkipBuild Condition="'$(BuildSdkDeb)' != 'true'">true</SkipBuild>
     <TargetFramework>$(SdkTargetFramework)</TargetFramework>
     <RuntimeIdentifier>$(NETCoreSdkRuntimeIdentifier)</RuntimeIdentifier>
-    <SkipBuild Condition="'$(BuildSdkDeb)' != 'true'">true</SkipBuild>
     <GenerateInstallers>true</GenerateInstallers>
+    <BuildDebPackage>true</BuildDebPackage>
     <InstallerName>dotnet-hostfxr</InstallerName>
     <InstallerName Condition="'$(TargetOS)' == 'osx'">dotnet-hostfxr-internal</InstallerName>
     <PackageBrandNameSuffix>Host FX Resolver</PackageBrandNameSuffix>
