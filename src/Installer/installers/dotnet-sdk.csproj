@@ -36,15 +36,16 @@
     <TemplatesRoot>$(RedistLayoutPath)templates/</TemplatesRoot>
   </PropertyGroup>
 
-  <ItemGroup>
-    <CLISdkFiles Include="$(CLISdkRoot)**/*" />
-    <TemplatesFiles Include="$(TemplatesRoot)**/*" />
-    <SdkDebManPageFiles Include="$(ManpagesDirectory)/**/*" />
-    <ManifestFiles Include="$(RedistLayoutPath)sdk-manifests/**/*" />
-  </ItemGroup>
 
   <Target Name="PublishToDisk">
     <Error Condition="'$(OutputPath)' == ''" Text="Publishing to disk requires the OutputPath to be set to the root of the path to write to." />
+
+    <ItemGroup>
+      <CLISdkFiles Include="$(CLISdkRoot)**/*" />
+      <TemplatesFiles Include="$(TemplatesRoot)**/*" />
+      <SdkDebManPageFiles Include="$(ManpagesDirectory)/**/*" />
+      <ManifestFiles Include="$(RedistLayoutPath)sdk-manifests/**/*" />
+    </ItemGroup>
 
     <!-- Create layout: Binaries -->
     <Copy
