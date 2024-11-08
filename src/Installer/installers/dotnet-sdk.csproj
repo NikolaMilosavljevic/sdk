@@ -29,23 +29,77 @@
     <CandleVariables Include="AuthoredRegistryKeys;RegKeyNugetVersionValue" Value="true" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <RedistLayoutPath>$(BaseOutputPath)$(Configuration)\dotnet\</RedistLayoutPath>
+    <ManpagesDirectory>$(RepoRoot)Documentation/manpages</ManpagesDirectory>
+    <CLISdkRoot>$(RedistLayoutPath)sdk/</CLISdkRoot>
+    <TemplatesRoot>$(RedistLayoutPath)templates/</TemplatesRoot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CLISdkFiles Include="$(CLISdkRoot)**/*" />
+    <TemplatesFiles Include="$(TemplatesRoot)**/*" />
+    <SdkDebManPageFiles Include="$(ManpagesDirectory)/**/*" />
+    <ManifestFiles Include="$(RedistLayoutPath)sdk-manifests/**/*" />
+  </ItemGroup>
+
   <Target Name="PublishToDisk">
     <Error Condition="'$(OutputPath)' == ''" Text="Publishing to disk requires the OutputPath to be set to the root of the path to write to." />
 
-    <Copy SourceFiles="$(DotNetHostBinDir)\$(LibPrefix)hostfxr$(LibSuffix)"
-          DestinationFolder="$(OutputPath)/host/fxr/$(Version)" />
-  </Target>
+    <!-- Create layout: Binaries -->
+    <Copy
+      DestinationFiles="@(CLISdkFiles->'$(OutputPath)/sdk/%(RecursiveDir)%(Filename)%(Extension)')"
+      SourceFiles="@(CLISdkFiles)"
+      OverwriteReadOnlyFiles="True"
+      SkipUnchangedFiles="False"
+      UseHardlinksIfPossible="False" />
 
-  <Target Name="PublishSymbolsToDisk">
-    <Error Condition="'$(SymbolsOutputPath)' == ''" Text="Publishing to disk requires the SymbolsOutputPath to be set to the root of the path to write to." />
+    <!-- Create layout: Templates -->
+    <Copy
+      DestinationFiles="@(TemplatesFiles->'$(OutputPath)/templates/%(RecursiveDir)%(Filename)%(Extension)')"
+      SourceFiles="@(TemplatesFiles)"
+      OverwriteReadOnlyFiles="True"
+      SkipUnchangedFiles="False"
+      UseHardlinksIfPossible="False" />
 
-    <Copy SourceFiles="$(DotNetHostBinDir)\hostfxr.pdb"
-          Condition="'$(TargetOS)' == 'windows'"
-          DestinationFolder="$(SymbolsOutputPath)" />
+    <!-- Create layout: Workload Manifests -->
+    <Copy
+      DestinationFiles="@(ManifestFiles->'$(OutputPath)/sdk-manifests/%(RecursiveDir)%(Filename)%(Extension)')"
+      SourceFiles="@(ManifestFiles)"
+      OverwriteReadOnlyFiles="True"
+      SkipUnchangedFiles="False"
+      UseHardlinksIfPossible="False" />
 
-    <Copy SourceFiles="$(DotNetHostBinDir)\$(LibPrefix)hostfxr$(LibSuffix)$(SymbolsSuffix)"
-          Condition="'$(TargetOS)' != 'windows'"
-          DestinationFolder="$(SymbolsOutputPath)" />
+    <!-- TODO: figure out this section -->
+    <!-- Create layout: Man Pages
+    <Copy
+      DestinationFiles="@(SdkDebManPageFiles->'$(LayoutDocsDir)/%(RecursiveDir)%(Filename)-$(Version)%(Extension)')"
+      SourceFiles="@(SdkDebManPageFiles)"
+      OverwriteReadOnlyFiles="True"
+      SkipUnchangedFiles="False"
+      UseHardlinksIfPossible="False" />
+    -->
+
+    <!-- TODO: figure out this section -->
+    <!-- Create layout: Generate and Place postinst
+    <ReplaceFileContents
+      InputFiles="$(DebianPostinstTemplateFile)"
+      DestinationFiles="$(DebianPostinstFile)"
+      ReplacementItems="@(DebianPostInstTokenValues)" />
+
+    <Chmod
+      Glob="$(DebianPostinstFile)"
+      Mode="ugo+x" />
+    -->
+
+    <!-- TODO: likely need to set properties instead of using config.json - check -->
+    <!-- Create layout: Generate and Place debian_config.json
+    <ReplaceFileContents
+      InputFiles="$(DebianConfigTemplateFile)"
+      DestinationFiles="$(DebianConfigJsonFile)"
+      ReplacementItems="@(DebianConfigTokenValues)" />
+    -->
+
   </Target>
 
   <Target Name="AddLinuxPackageInformation" BeforeTargets="GetDebInstallerJsonProperties;GetRpmInstallerJsonProperties">
