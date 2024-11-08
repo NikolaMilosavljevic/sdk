@@ -23,6 +23,7 @@
       "src\\Containers\\packaging\\package.csproj",
       "src\\Installer\\redist-installer\\redist-installer.csproj",
       "src\\Installer\\core-sdk-tasks\\core-sdk-tasks.csproj",
+      "src\\Installer\\installers\\dotnet-sdk.proj",
       "src\\Layout\\redist\\redist.csproj",
       "src\\Layout\\tool_fsharp\\tool_fsc.csproj",
       "src\\Layout\\tool_msbuild\\tool_msbuild.csproj",
