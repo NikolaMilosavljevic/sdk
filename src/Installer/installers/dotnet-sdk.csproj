@@ -6,6 +6,7 @@
     <GenerateInstallers>true</GenerateInstallers>
     <BuildDebPackage>true</BuildDebPackage>
     <ProductBrandPrefix>Microsoft .NET</ProductBrandPrefix>
+    <LicenseFile>$(RepoRoot)LICENSE.TXT</LicenseFile>
     <InstallerName>dotnet-hostfxr</InstallerName>
     <InstallerName Condition="'$(TargetOS)' == 'osx'">dotnet-hostfxr-internal</InstallerName>
     <PackageBrandNameSuffix>Host FX Resolver</PackageBrandNameSuffix>
