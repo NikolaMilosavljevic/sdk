@@ -30,7 +30,12 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <RedistLayoutPath>$(BaseOutputPath)$(Configuration)\dotnet\</RedistLayoutPath>
+    <!--
+      TODO: how can we have this discovered, or moved?
+      Previous value, that was copied from old project was:
+      $(BaseOutputPath)$(Configuration)\dotnet\
+    -->
+    <RedistLayoutPath>$(ArtifactsBinDir)redist-installer\$(Configuration)\dotnet\</RedistLayoutPath>
     <ManpagesDirectory>$(RepoRoot)Documentation/manpages</ManpagesDirectory>
     <CLISdkRoot>$(RedistLayoutPath)sdk/</CLISdkRoot>
     <TemplatesRoot>$(RedistLayoutPath)templates/</TemplatesRoot>
