@@ -14,8 +14,13 @@
     <PackageBrandNameSuffix>SDK</PackageBrandNameSuffix>
     <PlatformPackageType>ToolPack</PlatformPackageType>
     <UseBrandingNameInLinuxPackageDescription>true</UseBrandingNameInLinuxPackageDescription>
+    <!--
+      Installer infra requires MajorVersion and MinorVersion, which triggers reevaluation of Arcade's
+      VersionPrefix property, which requires PatchVersion to be set in order to produce the correct SDK version.
+    -->
     <MajorVersion>$(VersionMajor)</MajorVersion>
     <MinorVersion>$(VersionMinor)</MinorVersion>
+    <PatchVersion>$(VersionPrefix.Split('.')[2])</PatchVersion>
   </PropertyGroup>
 
   <ItemGroup>
