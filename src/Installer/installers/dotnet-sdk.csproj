@@ -13,7 +13,6 @@
     <PackageDescription></PackageDescription>
     <PackageBrandNameSuffix>SDK</PackageBrandNameSuffix>
     <PlatformPackageType>ToolPack</PlatformPackageType>
-    <PackageSummary>Microsoft .NET SDK $(PackageVersion)</PackageSummary>
     <!--
       Installer infra requires MajorVersion and MinorVersion, which triggers reevaluation of Arcade's
       VersionPrefix property, which requires PatchVersion to be set in order to produce the correct SDK version.
@@ -116,6 +115,11 @@
   <Target Name="AddLinuxPackageInformation"
       BeforeTargets="GetDebInstallerJsonProperties;GetRpmInstallerJsonProperties"
       DependsOnTargets="CalculateLinuxNativeInstallerDependencyVersions">
+
+    <PropertyGroup>
+      <PackageSummary>Microsoft .NET SDK $(PackageVersion)</PackageSummary>
+    </PropertyGroup>
+
     <ItemGroup>
       <LinuxPackageDependency Include="dotnet-runtime-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRuntimePackageVersionWithTilde)" />
       <LinuxPackageDependency Include="dotnet-targeting-pack-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRefPackageVersionWithTilde)" />
