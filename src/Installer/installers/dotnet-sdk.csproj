@@ -7,7 +7,7 @@
     <BuildDebPackage>true</BuildDebPackage>
     <ProductBrandPrefix>Microsoft .NET</ProductBrandPrefix>
     <LicenseFile>$(RepoRoot)LICENSE.TXT</LicenseFile>
-    <InstallerName>dotnet-sdk-$(MajorMinorVersion)</InstallerName>
+    <InstallerName>dotnet-sdk</InstallerName>
     <InstallerName Condition="'$(TargetOS)' == 'osx'">dotnet-sdk-internal</InstallerName>
     <PackageBrandNameSuffix>Host FX Resolver</PackageBrandNameSuffix>
     <PlatformPackageType>ToolPack</PlatformPackageType>
@@ -107,13 +107,13 @@
   <Target Name="AddLinuxPackageInformation"
       BeforeTargets="GetDebInstallerJsonProperties;GetRpmInstallerJsonProperties"
       DependsOnTargets="CalculateLinuxNativeInstallerDependencyVersions">
-    <ItemGroup Condition="'$(GenerateDeb)' == 'true'">
-      <LinuxPackageDependency Include="libc6;libgcc1;libstdc++6" />
-    </ItemGroup>
     <ItemGroup>
-      <LinuxPackageDependency Include="dotnet-runtime-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(InstallerPackageVersion)" />
-      <LinuxPackageDependency Include="dotnet-runtime-deps-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(InstallerPackageVersion)" />
-      <LinuxPackageDependency Include="dotnet-host" Version="$(InstallerPackageVersion)" />
+      <LinuxPackageDependency Include="dotnet-runtime-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRuntimePackageVersionWithTilde)" />
+      <LinuxPackageDependency Include="dotnet-targeting-pack-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRefPackageVersionWithTilde)" />
+      <LinuxPackageDependency Include="dotnet-apphost-pack-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRuntimePackageVersionWithTilde)" />
+      <LinuxPackageDependency Include="netstandard-targeting-pack-$(NetStandardTargetingPackMajorMinorVersion)" Version="$(NetStandardTargetingPackPackageVersionWithTilde)" />
+      <LinuxPackageDependency Include="aspnetcore-runtime-$(AspNetCoreMajorMinorVersion)" Version="$(AspNetCoreRuntimeVersionWithTilde)" />
+      <LinuxPackageDependency Include="aspnetcore-targeting-pack-$(AspNetCoreMajorMinorVersion)" Version="$(AspNetCoreRefVersionWithTilde)" />
       <RpmJsonProperty Include="directories" Object="[ &quot;/usr/share/dotnet&quot;, &quot;/usr/share/doc/$(VersionedInstallerName)&quot; ]" />
     </ItemGroup>
   </Target>
