@@ -9,8 +9,6 @@
     <LicenseFile>$(RepoRoot)LICENSE.TXT</LicenseFile>
     <InstallerName>dotnet-sdk</InstallerName>
     <InstallerName Condition="'$(TargetOS)' == 'osx'">dotnet-sdk-internal</InstallerName>
-    <!-- Clear PackageDescription to have it correctly set by Arcade. -->
-    <PackageDescription></PackageDescription>
     <PackageBrandNameSuffix>SDK</PackageBrandNameSuffix>
     <PlatformPackageType>ToolPack</PlatformPackageType>
     <!--
@@ -112,14 +110,17 @@
 
   </Target>
 
+  <Target Name="SetCustomPackagingProperties" BeforeTargets="_GetCommonJsonProperties">
+    <PropertyGroup>
+      <PackageSummary>Microsoft .NET SDK $(PackageVersion)</PackageSummary>
+      <!-- Clear PackageDescription to have it correctly set by Arcade. -->
+      <PackageDescription></PackageDescription>
+    </PropertyGroup>
+  </Target>
+
   <Target Name="AddLinuxPackageInformation"
       BeforeTargets="GetDebInstallerJsonProperties;GetRpmInstallerJsonProperties"
       DependsOnTargets="CalculateLinuxNativeInstallerDependencyVersions">
-
-    <PropertyGroup>
-      <PackageSummary>Microsoft .NET SDK $(PackageVersion)</PackageSummary>
-    </PropertyGroup>
-
     <ItemGroup>
       <LinuxPackageDependency Include="dotnet-runtime-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRuntimePackageVersionWithTilde)" />
       <LinuxPackageDependency Include="dotnet-targeting-pack-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRefPackageVersionWithTilde)" />
