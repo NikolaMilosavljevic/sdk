@@ -9,9 +9,13 @@
     <LicenseFile>$(RepoRoot)LICENSE.TXT</LicenseFile>
     <InstallerName>dotnet-sdk</InstallerName>
     <InstallerName Condition="'$(TargetOS)' == 'osx'">dotnet-sdk-internal</InstallerName>
-    <PackageBrandNameSuffix>Host FX Resolver</PackageBrandNameSuffix>
+    <!-- Clear PackageDescription to have it correctly set by Arcade. -->
+    <PackageDescription></PackageDescription>
+    <PackageBrandNameSuffix>SDK</PackageBrandNameSuffix>
     <PlatformPackageType>ToolPack</PlatformPackageType>
     <UseBrandingNameInLinuxPackageDescription>true</UseBrandingNameInLinuxPackageDescription>
+    <MajorVersion>$(VersionMajor)</MajorVersion>
+    <MinorVersion>$(VersionMinor)</MinorVersion>
   </PropertyGroup>
 
   <ItemGroup>
