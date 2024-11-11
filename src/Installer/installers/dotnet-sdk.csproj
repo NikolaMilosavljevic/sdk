@@ -13,7 +13,7 @@
     <PackageDescription></PackageDescription>
     <PackageBrandNameSuffix>SDK</PackageBrandNameSuffix>
     <PlatformPackageType>ToolPack</PlatformPackageType>
-    <UseBrandingNameInLinuxPackageDescription>true</UseBrandingNameInLinuxPackageDescription>
+    <PackageSummary>Microsoft .NET SDK $(PackageVersion)</PackageSummary>
     <!--
       Installer infra requires MajorVersion and MinorVersion, which triggers reevaluation of Arcade's
       VersionPrefix property, which requires PatchVersion to be set in order to produce the correct SDK version.
