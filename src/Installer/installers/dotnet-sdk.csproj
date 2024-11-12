@@ -52,7 +52,6 @@
     <ItemGroup>
       <CLISdkFiles Include="$(CLISdkRoot)**/*" />
       <TemplatesFiles Include="$(TemplatesRoot)**/*" />
-      <SdkDebManPageFiles Include="$(ManpagesDirectory)/**/*" />
       <ManifestFiles Include="$(RedistLayoutPath)sdk-manifests/**/*" />
     </ItemGroup>
 
@@ -79,6 +78,18 @@
       OverwriteReadOnlyFiles="True"
       SkipUnchangedFiles="False"
       UseHardlinksIfPossible="False" />
+  </Target>
+
+  <Target Name="SetCustomPackagingProperties" BeforeTargets="_GetCommonJsonProperties">
+    <PropertyGroup>
+      <PackageSummary>Microsoft .NET SDK $(PackageVersion)</PackageSummary>
+      <!-- Clear PackageDescription to have it correctly set by Arcade. -->
+      <PackageDescription></PackageDescription>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <SdkDebManPageFiles Include="$(ManpagesDirectory)/**/*" />
+    </ItemGroup>
 
     <!-- Process manpages - insert version into filenames -->
     <Copy
@@ -104,14 +115,6 @@
       Mode="ugo+x" />
     -->
 
-  </Target>
-
-  <Target Name="SetCustomPackagingProperties" BeforeTargets="_GetCommonJsonProperties">
-    <PropertyGroup>
-      <PackageSummary>Microsoft .NET SDK $(PackageVersion)</PackageSummary>
-      <!-- Clear PackageDescription to have it correctly set by Arcade. -->
-      <PackageDescription></PackageDescription>
-    </PropertyGroup>
   </Target>
 
   <Target Name="AddLinuxPackageInformation"
