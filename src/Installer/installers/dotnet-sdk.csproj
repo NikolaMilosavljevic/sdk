@@ -38,9 +38,11 @@
       $(BaseOutputPath)$(Configuration)\dotnet\
     -->
     <RedistLayoutPath>$(ArtifactsBinDir)redist-installer\$(Configuration)\dotnet\</RedistLayoutPath>
-    <ManpagesDirectory>$(RepoRoot)Documentation/manpages</ManpagesDirectory>
+    <ManpagesDirectory>$(RepoRoot)documentation/manpages/sdk</ManpagesDirectory>
     <CLISdkRoot>$(RedistLayoutPath)sdk/</CLISdkRoot>
     <TemplatesRoot>$(RedistLayoutPath)templates/</TemplatesRoot>
+    <SdkDebianIntermediateDirectory>$(IntermediateOutputPath)debian/sdk/</SdkDebianIntermediateDirectory>
+    <ManpagesIntermediateDirectory>$(SdkDebianIntermediateDirectory)debianLayoutDirectory/manpages/</ManpagesIntermediateDirectory>
   </PropertyGroup>
 
 
@@ -78,15 +80,17 @@
       SkipUnchangedFiles="False"
       UseHardlinksIfPossible="False" />
 
-    <!-- TODO: figure out this section -->
-    <!-- Create layout: Man Pages
+    <!-- Process manpages - insert version into filenames -->
     <Copy
-      DestinationFiles="@(SdkDebManPageFiles->'$(LayoutDocsDir)/%(RecursiveDir)%(Filename)-$(Version)%(Extension)')"
+      DestinationFiles="@(SdkDebManPageFiles->'$(ManpagesIntermediateDirectory)/%(RecursiveDir)%(Filename)-$(Version)%(Extension)')"
       SourceFiles="@(SdkDebManPageFiles)"
       OverwriteReadOnlyFiles="True"
       SkipUnchangedFiles="False"
       UseHardlinksIfPossible="False" />
-    -->
+
+    <ItemGroup>
+      <Manpage Include="$(ManpagesIntermediateDirectory)**/*" />
+    </ItemGroup>
 
     <!-- TODO: figure out this section -->
     <!-- Create layout: Generate and Place postinst
@@ -98,14 +102,6 @@
     <Chmod
       Glob="$(DebianPostinstFile)"
       Mode="ugo+x" />
-    -->
-
-    <!-- TODO: likely need to set properties instead of using config.json - check -->
-    <!-- Create layout: Generate and Place debian_config.json
-    <ReplaceFileContents
-      InputFiles="$(DebianConfigTemplateFile)"
-      DestinationFiles="$(DebianConfigJsonFile)"
-      ReplacementItems="@(DebianConfigTokenValues)" />
     -->
 
   </Target>
