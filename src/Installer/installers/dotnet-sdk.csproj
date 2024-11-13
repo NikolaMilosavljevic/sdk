@@ -41,8 +41,6 @@
     <ManpagesDirectory>$(RepoRoot)documentation/manpages/sdk</ManpagesDirectory>
     <CLISdkRoot>$(RedistLayoutPath)sdk/</CLISdkRoot>
     <TemplatesRoot>$(RedistLayoutPath)templates/</TemplatesRoot>
-    <SdkDebianIntermediateDirectory>$(IntermediateOutputPath)debian/sdk/</SdkDebianIntermediateDirectory>
-    <ManpagesIntermediateDirectory>$(SdkDebianIntermediateDirectory)debianLayoutDirectory/manpages/</ManpagesIntermediateDirectory>
   </PropertyGroup>
 
 
@@ -87,32 +85,14 @@
       <PackageDescription></PackageDescription>
     </PropertyGroup>
 
-    <ItemGroup>
-      <SdkDebManPageFiles Include="$(ManpagesDirectory)/**/*" />
-    </ItemGroup>
-
-    <!-- Process manpages - insert version into filenames -->
-    <Copy
-      DestinationFiles="@(SdkDebManPageFiles->'$(ManpagesIntermediateDirectory)/%(RecursiveDir)%(Filename)-$(Version)%(Extension)')"
-      SourceFiles="@(SdkDebManPageFiles)"
-      OverwriteReadOnlyFiles="True"
-      SkipUnchangedFiles="False"
-      UseHardlinksIfPossible="False" />
+    <!--
+      Manpages are not installed atm, tracked with https://github.com/dotnet/sdk/issues/44833
+      Arcade infra expects the following items, but the installation path is TBD.
+      Tracked in https://github.com/dotnet/arcade/issues/15243
 
     <ItemGroup>
-      <Manpage Include="$(ManpagesIntermediateDirectory)**/*" />
+      <Manpage Include="$(ManpagesDirectory)**/*" />
     </ItemGroup>
-
-    <!-- TODO: figure out this section -->
-    <!-- Create layout: Generate and Place postinst
-    <ReplaceFileContents
-      InputFiles="$(DebianPostinstTemplateFile)"
-      DestinationFiles="$(DebianPostinstFile)"
-      ReplacementItems="@(DebianPostInstTokenValues)" />
-
-    <Chmod
-      Glob="$(DebianPostinstFile)"
-      Mode="ugo+x" />
     -->
 
   </Target>
@@ -120,6 +100,19 @@
   <Target Name="AddLinuxPackageInformation"
       BeforeTargets="GetDebInstallerJsonProperties;GetRpmInstallerJsonProperties"
       DependsOnTargets="CalculateLinuxNativeInstallerDependencyVersions">
+
+    <PropertyGroup>
+      <DebianPostinstTemplateFile>$(MSBuildThisFileDirectory)../redist-installer/packaging/deb/postinst</DebianPostinstTemplateFile>
+      <DebianPostinstFile>$(BaseIntermediateOutputPath)debian/postinst</DebianPostinstFile>
+    </PropertyGroup>
+
+    <!-- Generate postinst file -->
+    <ReplaceFileContents
+      InputFiles="$(DebianPostinstTemplateFile)"
+      DestinationFiles="$(DebianPostinstFile)"
+      ReplacementPatterns="%SDK_VERSION%"
+      ReplacementStrings="$(Version)" />
+
     <ItemGroup>
       <LinuxPackageDependency Include="dotnet-runtime-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRuntimePackageVersionWithTilde)" />
       <LinuxPackageDependency Include="dotnet-targeting-pack-$(MicrosoftNETCoreAppMajorMinorVersion)" Version="$(MicrosoftNETCoreAppRefPackageVersionWithTilde)" />
@@ -128,6 +121,7 @@
       <LinuxPackageDependency Include="aspnetcore-runtime-$(AspNetCoreMajorMinorVersion)" Version="$(AspNetCoreRuntimeVersionWithTilde)" />
       <LinuxPackageDependency Include="aspnetcore-targeting-pack-$(AspNetCoreMajorMinorVersion)" Version="$(AspNetCoreRefVersionWithTilde)" />
       <RpmJsonProperty Include="directories" Object="[ &quot;/usr/share/dotnet&quot;, &quot;/usr/share/doc/$(VersionedInstallerName)&quot; ]" />
+      <LinuxPostInstallScript Include="$(DebianPostinstFile)" />
     </ItemGroup>
   </Target>
 </Project>
