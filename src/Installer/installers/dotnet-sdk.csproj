@@ -8,12 +8,11 @@
     <ProductBrandPrefix>Microsoft .NET</ProductBrandPrefix>
     <LicenseFile>$(RepoRoot)LICENSE.TXT</LicenseFile>
     <InstallerName>dotnet-sdk</InstallerName>
-    <InstallerName Condition="'$(TargetOS)' == 'osx'">dotnet-sdk-internal</InstallerName>
     <PackageBrandNameSuffix>SDK</PackageBrandNameSuffix>
     <PlatformPackageType>ToolPack</PlatformPackageType>
     <!--
       Installer infra requires MajorVersion and MinorVersion, which triggers reevaluation of Arcade's
-      VersionPrefix property, which requires PatchVersion to be set in order to produce the correct SDK version.
+      VersionPrefix property. This requires PatchVersion to be set in order to produce the correct SDK version.
     -->
     <MajorVersion>$(VersionMajor)</MajorVersion>
     <MinorVersion>$(VersionMinor)</MinorVersion>
@@ -32,17 +31,11 @@
   <Import Project="..\redist-installer\targets\LinuxNativeInstallerDependencyVersions.targets" />
 
   <PropertyGroup>
-    <!--
-      TODO: how can we have this discovered, or moved?
-      Previous value, that was copied from old project was:
-      $(BaseOutputPath)$(Configuration)\dotnet\
-    -->
     <RedistLayoutPath>$(ArtifactsBinDir)redist-installer\$(Configuration)\dotnet\</RedistLayoutPath>
     <ManpagesDirectory>$(RepoRoot)documentation/manpages/sdk</ManpagesDirectory>
     <CLISdkRoot>$(RedistLayoutPath)sdk/</CLISdkRoot>
     <TemplatesRoot>$(RedistLayoutPath)templates/</TemplatesRoot>
   </PropertyGroup>
-
 
   <Target Name="PublishToDisk">
     <Error Condition="'$(OutputPath)' == ''" Text="Publishing to disk requires the OutputPath to be set to the root of the path to write to." />
@@ -120,7 +113,6 @@
       <LinuxPackageDependency Include="netstandard-targeting-pack-$(NetStandardTargetingPackMajorMinorVersion)" Version="$(NetStandardTargetingPackPackageVersionWithTilde)" />
       <LinuxPackageDependency Include="aspnetcore-runtime-$(AspNetCoreMajorMinorVersion)" Version="$(AspNetCoreRuntimeVersionWithTilde)" />
       <LinuxPackageDependency Include="aspnetcore-targeting-pack-$(AspNetCoreMajorMinorVersion)" Version="$(AspNetCoreRefVersionWithTilde)" />
-      <RpmJsonProperty Include="directories" Object="[ &quot;/usr/share/dotnet&quot;, &quot;/usr/share/doc/$(VersionedInstallerName)&quot; ]" />
       <LinuxPostInstallScript Include="$(DebianPostinstFile)" />
     </ItemGroup>
   </Target>
