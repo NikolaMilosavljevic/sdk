@@ -75,8 +75,6 @@ extends:
         image: mcr.microsoft.com/dotnet-buildtools/prereqs:fedora-39
       mariner20CrossArm:
         image: mcr.microsoft.com/dotnet-buildtools/prereqs:cbl-mariner-2.0-cross-arm
-      ubuntu2204DebPkg:
-        image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-22.04-debpkg
     sdl:
       sourceAnalysisPool:
         name: $(DncEngInternalBuildPool)
@@ -200,7 +198,7 @@ extends:
               runTests: false
             ### PORTABLE ###
             - categoryName: Portable
-              container: ubuntu2204DebPkg
+              container: ubuntu2204
               # Do not publish zips and tarballs. The linux-x64 binaries are already published by Official.
               publishArgument: $(_publishArgument) /p:PublishBinariesAndBadge=false
               officialBuildProperties: $(_officialBuildProperties)
