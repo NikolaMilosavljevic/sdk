@@ -27,7 +27,6 @@
   <UsingTask TaskName="Chmod" AssemblyFile="$(CoreSdkTaskDll)" />
   <UsingTask TaskName="CollatePackageDownloads" AssemblyFile="$(CoreSdkTaskDll)" />
   <UsingTask TaskName="Crossgen" AssemblyFile="$(CoreSdkTaskDll)" />
-  <UsingTask TaskName="DotNetDebTool" AssemblyFile="$(CoreSdkTaskDll)" />
   <UsingTask TaskName="DownloadFile" AssemblyFile="$(ArcadeSdkBuildTasksAssembly)" />
   <UsingTask TaskName="ExtractArchiveToDirectory" AssemblyFile="$(CoreSdkTaskDll)" />
   <UsingTask TaskName="GenerateDefaultRuntimeFrameworkVersion" AssemblyFile="$(CoreSdkTaskDll)" />
