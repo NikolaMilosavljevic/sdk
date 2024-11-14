@@ -198,7 +198,6 @@ extends:
               runTests: false
             ### PORTABLE ###
             - categoryName: Portable
-              container: ubuntu2204
               # Do not publish zips and tarballs. The linux-x64 binaries are already published by Official.
               publishArgument: $(_publishArgument) /p:PublishBinariesAndBadge=false
               officialBuildProperties: $(_officialBuildProperties)
