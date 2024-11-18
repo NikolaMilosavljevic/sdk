@@ -18,6 +18,11 @@
     <MajorVersion>$(VersionMajor)</MajorVersion>
     <MinorVersion>$(VersionMinor)</MinorVersion>
     <PatchVersion>$(VersionPrefix.Split('.')[2])</PatchVersion>
+    <!--
+      All supported installer runtime identifiers should be specified here.
+      New arcade infra is only used for Linux installers, at the moment.
+    -->
+    <InstallerRuntimeIdentifiers>linux-$(Architecture)</InstallerRuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
