@@ -24,6 +24,7 @@
       New arcade infra is only used for Linux installers, at the moment.
     -->
     <InstallerRuntimeIdentifiers>linux-$(Architecture)</InstallerRuntimeIdentifiers>
+    <IsShippingPackage>true</IsShippingPackage>
   </PropertyGroup>
 
   <ItemGroup>
