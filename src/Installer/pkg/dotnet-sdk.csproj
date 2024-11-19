@@ -6,6 +6,7 @@
     <GenerateInstallers>true</GenerateInstallers>
     <BuildDebPackage Condition="'$(BuildSdkDeb)' == 'true'">true</BuildDebPackage>
     <BuildRpmPackage Condition="'$(IsRPMBasedDistro)' == 'true'">true</BuildRpmPackage>
+    <UseArcadeRpmTooling>true</UseArcadeRpmTooling>
     <ProductBrandPrefix>Microsoft .NET</ProductBrandPrefix>
     <LicenseFile>$(RepoRoot)LICENSE.TXT</LicenseFile>
     <InstallerName>dotnet-sdk</InstallerName>
